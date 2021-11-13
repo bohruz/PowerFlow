@@ -4,8 +4,11 @@
 int main() {
   auto file = powerflow::ReadFile("./content.txt");
 
-  for (auto const& content : file.get_content()) {
-    std::cout << content << "\n";
+  for (auto const& line : file.get_content()) {
+    for (auto const& column_value : line) {
+      std::cout << column_value << " ";
+    }
+    std::cout << "\n";
   }
   return EXIT_SUCCESS;
 }

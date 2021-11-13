@@ -6,10 +6,12 @@
 #include <sstream>
 #include <vector>
 namespace powerflow {
+using Table = std::vector<std::vector<std::string>>;
 class ReadFile {
  public:
   ReadFile(std::string path);
-  std::vector<std::string> get_content();
+  ~ReadFile();
+  Table get_content();
 
  private:
   std::ifstream input_file_{};

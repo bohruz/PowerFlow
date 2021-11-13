@@ -1,25 +1,29 @@
 #include "readFile.hpp"
-
 namespace powerflow {
 
 ReadFile::ReadFile(std::string path) : input_file_{std::ifstream{path}} {}
+ReadFile::~ReadFile() { input_file_.close(); }
 
-std::vector<std::string> ReadFile::get_content() {
-  auto result = std::vector<std::string>{};
+Table ReadFile::get_content() {
+  auto table = Table{};
   if (input_file_.is_open()) {
-    auto string_buffer = std::string{};
-    while (std::getline(input_file_, string_buffer)) {
-      //   auto stream_buffer = std::stringstream{string_buffer};
-      //   auto temp_string = std::string{};
-      //   stream_buffer >> temp_string;
+    auto line_string_buffer = std::string{};
 
-      result.emplace_back(string_buffer);
+    while (std::getline(input_file_, line_string_buffer)) {
+      auto line_vector_buffer = std::vector<std::string>{};
+      auto line_stream_buffer = std::stringstream{line_string_buffer};
+      auto column_stream_buffer = std::string{};
+      while (line_stream_buffer >> column_stream_buffer) {
+        line_vector_buffer.emplace_back(column_stream_buffer);
+      }
+
+      table.emplace_back(line_vector_buffer);
     }
 
   } else {
     std::cerr << "Cant open file\n";
   }
-  return result;
+  return table;
 }
 
 }  // namespace powerflow
