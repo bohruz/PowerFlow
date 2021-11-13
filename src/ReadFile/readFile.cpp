@@ -21,7 +21,7 @@ Table ReadFile::get_content() {
     }
 
   } else {
-    std::cerr << "Cant open file\n";
+    std::cerr << "Can't open file\n";
   }
   return table;
 }
